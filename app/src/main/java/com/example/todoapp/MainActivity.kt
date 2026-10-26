@@ -59,7 +59,10 @@ data class Task(val title: String, val done : Boolean = false)
 fun TaskList(
     viewModel: TaskViewModel = viewModel()
 ){
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable(
+
+        
+    ) { mutableStateOf("") }
 
     Column() {
         Row(verticalAlignment = Alignment.CenterVertically) {
