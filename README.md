@@ -16,7 +16,7 @@
 ## Скриншот
 <img width="360" height="671" alt="изображение" src="https://github.com/user-attachments/assets/ede5c2f4-26b7-4358-8c70-624792513b3a" />
 
-<img width="1080" height="2400" alt="Screenshot_20261027_134038" src="https://github.com/user-attachments/assets/8adab5a0-8799-42a8-9582-73e9f0a350d5" />
+<img width="360" height="671" alt="Screenshot_20261027_134038" src="https://github.com/user-attachments/assets/8adab5a0-8799-42a8-9582-73e9f0a350d5" />
 
 
 ## Технологии
