@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,12 +21,13 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todoapp.ui.theme.ToDoAppTheme
 
@@ -43,7 +46,11 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp) // Авто-отступы между блоками
                     ) {
-                        TaskList()
+                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                            Box(modifier = Modifier.padding(innerPadding).padding(16.dp)) {
+                                App()
+                            }
+                        }
 
                     }
                 }
@@ -53,15 +60,16 @@ class MainActivity : ComponentActivity() {
 }
 
 
-data class Task(val title: String, val done : Boolean = false)
+data class Task(val id: Int, val title: String, val done : Boolean = false)
 
 @Composable
 fun TaskList(
+    onTaskClick: (Int) -> Unit,
     viewModel: TaskViewModel = viewModel()
 ){
     var text by rememberSaveable(
 
-        
+
     ) { mutableStateOf("") }
 
     Column() {
@@ -91,13 +99,42 @@ fun TaskList(
                        checked = task.done,
                        onCheckedChange = {viewModel.toggle(index) }
                    )
+                Text(
+                    text = task.title,
+                    textDecoration = if (task.done) TextDecoration.LineThrough else null,
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onTaskClick(task.id) }
+                )
 
-                    Text(text = task.title)
                 }
+
             }
         }
+
     }
-
-
 }
+
+@Composable
+fun TaskDetail(
+    taskId: Int,
+    onBack: () -> Unit,
+    viewModel: TaskViewModel = viewModel()
+){
+    val task = viewModel.getTask(taskId)
+
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        if (task != null)
+        {
+            Text(text = task.title, fontSize = 24.sp)
+            Text(text = if(task.done) "Выполнена" else "Не выполнена")
+        } else{
+            Text("Задача не найдена")
+        }
+        Button(onClick = onBack){
+            Text("Назад")
+        }
+    }
+}
+
 

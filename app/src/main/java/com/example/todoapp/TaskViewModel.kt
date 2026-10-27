@@ -7,13 +7,18 @@ class TaskViewModel : ViewModel() {
 
     val task: List<Task> = _task
 
+    private var nextId = 1
+
     fun addTask(title: String)
     {
         if(title.isNotBlank())
         {
-            _task.add(Task(title.trim()))
+            _task.add(Task(id = nextId++, title = title.trim()))
         }
     }
+
+    fun getTask(id: Int): Task? = _task.find { it.id == id }
+
     fun toggle(index: Int)
     {
         _task[index] = _task[index].copy(done = !_task[index].done)
