@@ -19,13 +19,19 @@ class TaskViewModel : ViewModel() {
 
     fun getTask(id: Int): Task? = _task.find { it.id == id }
 
-    fun toggle(index: Int)
+    fun toggle(id: Int)
     {
-        _task[index] = _task[index].copy(done = !_task[index].done)
+        val index = _task.indexOfFirst{ it.id == id }
+        if(index != -1)
+        {
+            _task[index] = _task[index].copy(done = !_task[index].done)
+        }
+
     }
-    fun remove(index: Int)
+    fun remove(id: Int)
     {
-        _task.removeAt(index)
+
+        _task.removeAll { it.id == id }
     }
 
 

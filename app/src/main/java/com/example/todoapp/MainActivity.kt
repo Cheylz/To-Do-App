@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -87,17 +88,17 @@ fun TaskList(
         }
 
         LazyColumn {
-            itemsIndexed(viewModel.task)
+            items(viewModel.task, key = { it.id })
             {
-                index, task -> Row(verticalAlignment = Alignment.CenterVertically) {
+                 task -> Row(verticalAlignment = Alignment.CenterVertically) {
                     Button(
-                        onClick = { viewModel.remove(index) }
+                        onClick = { viewModel.remove(task.id) }
                     ){
                         Text("Удалить")
                     }
                     Checkbox(
                        checked = task.done,
-                       onCheckedChange = {viewModel.toggle(index) }
+                       onCheckedChange = {viewModel.toggle(task.id) }
                    )
                 Text(
                     text = task.title,
